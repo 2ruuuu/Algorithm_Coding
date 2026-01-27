@@ -1,29 +1,33 @@
 const solution = (progresses, speeds) => {
-    let a = progresses.map((e, i) => {
-        let count = 0;
-        while(e < 100){
-            e = e + speeds[i];
-            count++;
-        }
-        return count;
-    })
-    let result = [];
-    let b = 0;
-    let count = 1;
-
-    for(let i = 0; i < a.length; i++){
-        if(a[b] >= a[i+1]){
-            count++;
-        } else {
-            result.push(count);
-            count = 1;
-            b = i+1;
-        }
-    }
+    const result = [];
     
-    if(count !== 1){
+    for(let i = 0; i < progresses.length; i++){
+        let count = 0;
+        while(progresses[i] < 100){
+            progresses[i] += speeds[i];
+            count++
+        }
         result.push(count);
     }
+    let count = 0;
+    let cur = result[0];
+    const ans = [];
     
-    return result;
+    for(let elem of result){
+        if(elem <= cur){
+            count++;
+        } else {
+            ans.push(count);
+            count = 1;
+            cur = elem;
+        }
+    }
+    ans.push(count);
+    
+    return ans;
 }
+
+//1. progresses의 인자마다 (speeds의 인자 * a)를 했을 때 a를 몇으로 해야 100 이하가 되는지 구한다.
+//2. count값을 result 배열에 넣는다.
+//3. for문으로 return 값을 구한다.
+//*이중 for문 돌려도 괜찮다
