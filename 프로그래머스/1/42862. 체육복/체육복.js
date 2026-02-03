@@ -1,23 +1,31 @@
-const solution = (n, lost, reserve) => {
-    let realLost = lost.filter(l => !reserve.includes(l)).sort((a, b) => a - b);
-    let realReserve = reserve.filter(r => !lost.includes(r)).sort((a, b) => a - b);
-
-    let answer = n - realLost.length;
-
-    for (let l of realLost) {
-        let front = realReserve.indexOf(l - 1);
-        if (front !== -1) {
-            answer++;
-            realReserve.splice(front, 1);
-            continue;
-        }
-        
-        let back = realReserve.indexOf(l + 1);
-        if (back !== -1) {
-            answer++;
-            realReserve.splice(back, 1);
+const solution = (student, lost, reserve) => {
+    lost.sort((a, b) => a - b);
+    reserve.sort((a, b) => a - b);
+    
+    student -= lost.length;
+    
+    for(let i = lost.length - 1; i >= 0; i--){
+        const reserveIndex = reserve.lastIndexOf(lost[i]);
+        if(reserveIndex !== -1){
+            lost.splice(i, 1);
+            reserve.splice(reserveIndex, 1);
+            student++;
         }
     }
+
+    for(let i = lost.length - 1; i >= 0; i--){
+        let reserveIndex = reserve.lastIndexOf(lost[i] + 1);
+        
+        if(reserveIndex === -1){
+            reserveIndex = reserve.lastIndexOf(lost[i] - 1);
+        }
+
+        if(reserveIndex !== -1){
+            lost.splice(i, 1);
+            reserve.splice(reserveIndex, 1);
+            student++;
+        } 
+    }
     
-    return answer;
+    return student;
 }
