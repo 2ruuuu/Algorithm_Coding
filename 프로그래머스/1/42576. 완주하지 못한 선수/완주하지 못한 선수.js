@@ -1,15 +1,21 @@
 const solution = (participant, completion) => {
-    let hi = new Map();
-    
-    for(let elem of completion) {
-        hi.set(elem, (hi.get(elem)||0) + 1);
-    }
-
-    for(let elem of participant) {
-        if(!hi.get(elem)){
-            return elem;
+    const obj = {};
+    for(let name of participant){
+        if(obj[name]){
+            obj[name]++;
         } else {
-            hi.set(elem, hi.get(elem) - 1);
+            obj[name] = 1;
+        }
+    }
+    for(let name of completion) {
+        if(obj[name]){
+            obj[name]--;
+        }
+    }
+    
+    for(let name in obj){
+        if(obj[name]){
+            return name;
         }
     }
 }
