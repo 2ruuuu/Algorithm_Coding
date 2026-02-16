@@ -1,23 +1,17 @@
-function solution(clothes) {
-    let obj = {};
-
-    for (let i = 0; i < clothes.length; i++) {
-        let type = clothes[i][1];
-        
-        if(obj[type] === undefined) {
-            obj[type] = 1;
+const solution = (clothes) => {
+    const object = {};
+    
+    for(const [dress, type] of clothes){
+        if(!object[type]){
+            object[type] = 1;
         } else {
-            obj[type]++;
+            object[type]++;
         }
     }
-
-    let total = 1;
-    let counts = Object.values(obj)
     
-    for(let j = 0; j < counts.length; j++){
-        let count = counts[j];
-        total *= (count + 1);
-    }
-
-    return total - 1;
+    const number = Object.keys(object).reduce((acc, cur) => {
+        return acc * (object[cur] + 1);
+    }, 1)
+    
+    return number - 1;
 }
